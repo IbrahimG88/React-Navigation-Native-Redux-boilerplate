@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 import { Provider, connect } from 'react-redux';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { createStore, combineReducers } from 'redux';
 import { devToolsEnhancer } from 'redux-devtools-extension';
 
@@ -29,6 +29,7 @@ let store = createStore(combineReducers({ count: counter }), devToolsEnhancer())
 class Counter extends React.Component {
     static navigationOptions = {
         title: 'Counter!',
+        drawerLabel: 'CounterLabel'
     };
 
     render() {
@@ -57,6 +58,7 @@ class Counter extends React.Component {
 class StaticCounter extends React.Component {
     static navigationOptions = {
         title: `Same number, wow!`,
+        drawerLabel: 'StaticCounterLabel'
     };
 
     render() {
@@ -80,8 +82,21 @@ let RootStack = createStackNavigator({
     StaticCounter: StaticCounterContainer,
 });
 
+
+
+// Creating the drawer: Working on it:
+let MyDrawerNavigator = createDrawerNavigator({
+    CounterLabel: {
+        screen: Counter,
+    },
+    StaticCounterLabel: {
+        screen: StaticCounter,
+    }
+});
+
+// changed the argument of createAppContainer() from RootStack to MyDrawerNavigator
 // And the app container
-let Navigation = createAppContainer(RootStack);
+let Navigation = createAppContainer(MyDrawerNavigator);
 
 // Render the app container component with the provider around it
 export default class App extends React.Component {
@@ -109,3 +124,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+
+
+/*
+* add the drawer:
+*implemented
+* */
